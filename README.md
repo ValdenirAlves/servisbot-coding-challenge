@@ -1,13 +1,13 @@
 # Welcome!
-Thank you for taking the time to participate in this code challenge!
+Thank you for taking the time to participate in this **fullstack** code challenge!
 
-Feel free to fork this repo, or create your own repo and complete the task below.
+Feel free to fork this repo, or create your own repo and complete the task below.  
 
 ## Note
 * You are free to use whatever technologies you wish to complete the task
 * You are encouraged to handle the provided data sets in a way that is efficient, and that best meets the requirements of application features specified below.
+* Build a RESTful API that that returns data (all read endpoints) - see data models specified below. You can use NodeJS and ExpressJS or similar
 * You are **not** required to produce a production ready application, this is a chance to showcase your abilities - so do try show what you know!
-* You are **not** required to write any backend apis - you can create an application layer that returns data from the provided (or your own modified) data structures
 * Comments or notes are more than welcome
 
 ## Introduction
