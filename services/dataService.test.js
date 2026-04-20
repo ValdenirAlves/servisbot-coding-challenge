@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { dataService } from './dataServices';
+import { dataService } from './dataService';
 
-describe('dataService', () => {
+describe('backend dataService', () => {
   it('should return all bots', async () => {
     const bots = await dataService.getBots();
 

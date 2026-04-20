@@ -7,15 +7,15 @@
   "scripts": {
     "generate": "node generate.mjs",
     "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "start": "npm run dev",
+    "start": "node server.js",
     "test": "vitest"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
     "moment": "^2.30.1",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
