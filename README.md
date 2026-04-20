@@ -72,3 +72,45 @@ Create an application that implements the following features
 
 There are no wireframes or design considerations specified.
 You are free to apply a UI/UX that delivers an intuitive application experience for the feature set above.
+
+## Tech Stack
+
+- React
+- Vite
+- Vitest + React Testing Library
+
+## Improvements & Decisions (20/04/2026)
+## Architecture
+
+- Introduced a service layer (dataService) to isolate data access and relationships from the UI
+- Kept components small and focused (presentation vs composition)
+
+## Async handling
+
+- Async access methods to simulate real-world API behavior
+- Added loading and error states in the UI to handle asynchronous flows
+
+## Data consistency
+
+- Handled inconsistent relationships (workers referencing bot name vs logs using bot ID) inside the service layer
+- Avoided modifying the original dataset
+
+## UX improvements
+
+- Added empty state handling for:
+  - Bots with no workers
+  - Bots with no logs
+- This prevents empty screens and improves user feedback
+
+## Testing - Focused on critical paths and edge cases
+
+- Added unit tests for:
+  - dataService (core data logic)
+  - BotDashboard (empty states and rendering)
+
+## Scalability consideration
+
+The current implementation uses a native HTML <select> for simplicity and to stay aligned with the scope of the assessment.
+For larger datasets (hundreds or thousands of bots), this would become less usable due to the lack of search and quick navigation.
+In a production scenario, I would likely replace this with a searchable dropdown (react-select or react-select/async), depending on whether server-side filtering is needed.
+I intentionally kept the current implementation simple to avoid introducing unnecessary complexity beyond the scope of this exercise.
