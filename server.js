@@ -54,8 +54,12 @@ app.get('/api/bots/:id/logs', async (req, res) => {
       return res.status(404).json({ message: 'Bot not found' });
     }
 
-    const logs = await dataService.getLogsByBotId(req.params.id);
-    res.json(logs);
+    const result = await dataService.getLogsByBotId(req.params.id, {
+      page: req.query.page,
+      limit: req.query.limit,
+    });
+
+    res.json(result);
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch logs' });
   }
@@ -69,12 +73,16 @@ app.get('/api/bots/:id/workers/:workerId/logs', async (req, res) => {
       return res.status(404).json({ message: 'Bot not found' });
     }
 
-    const logs = await dataService.getLogsByWorkerId(
+    const result = await dataService.getLogsByWorkerId(
       req.params.workerId,
-      req.params.id
+      req.params.id,
+      {
+        page: req.query.page,
+        limit: req.query.limit,
+      }
     );
 
-    res.json(logs);
+    res.json(result);
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch worker logs' });
   }

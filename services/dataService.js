@@ -1,6 +1,7 @@
 import botsData from '../data/bots.json' assert { type: 'json' };
 import workersData from '../data/workers.json' assert { type: 'json' };
 import logsData from '../data/logs.json' assert { type: 'json' };
+import { paginate } from './pagination.js';
 
 // Precompute lookups to avoid repeated array scans during reads.
 const botsById = Object.fromEntries(
@@ -61,15 +62,27 @@ export const dataService = {
     return workersByBotId[botId] || [];
   },
 
-  async getLogsByBotId(botId) {
-    return logsByBotId[botId] || [];
+  async getLogsByBotId(botId, options = {}) {
+    const logs = logsByBotId[botId] || [];
+
+    const sortedLogs = [...logs].sort(
+      (a, b) => new Date(b.created) - new Date(a.created)
+    );
+
+    return paginate(sortedLogs, options.page, options.limit);
   },
 
-  async getLogsByWorkerId(workerId, botId = null) {
+  async getLogsByWorkerId(workerId, botId = null, options = {}) {
     const logs = logsByWorkerId[workerId] || [];
 
-    if (!botId) return logs;
+    const scopedLogs = botId
+      ? logs.filter(log => log.bot === botId)
+      : logs;
 
-    return logs.filter(log => log.bot === botId);
-  },
+    const sortedLogs = [...scopedLogs].sort(
+      (a, b) => new Date(b.created) - new Date(a.created)
+    );
+
+    return paginate(sortedLogs, options.page, options.limit);
+}
 };

@@ -10,7 +10,7 @@ const handleResponse = async (response, fallbackMessage) => {
 };
 
 export const dataService = {
-  async getBots() {   
+  async getBots() {
     const response = await fetch(`${API_BASE_URL}/bots`);
     return handleResponse(response, 'Failed to fetch bots');
   },
@@ -20,20 +20,19 @@ export const dataService = {
     return handleResponse(response, 'Failed to fetch bot');
   },
 
-  async getWorkersByBotId(botId) {
-    const response = await fetch(`${API_BASE_URL}/bots/${botId}/workers`);
-    return handleResponse(response, 'Failed to fetch workers');
-  },
+  async getLogsByBotId(botId, page = 1, limit = 10) {
+    const response = await fetch(
+      `${API_BASE_URL}/bots/${botId}/logs?page=${page}&limit=${limit}`
+    );
 
-  async getLogsByBotId(botId) {
-    const response = await fetch(`${API_BASE_URL}/bots/${botId}/logs`);
     return handleResponse(response, 'Failed to fetch logs');
   },
 
-  async getLogsByWorkerId(workerId, botId) {
+  async getLogsByWorkerId(botId, workerId, page = 1, limit = 10) {
     const response = await fetch(
-      `${API_BASE_URL}/bots/${botId}/workers/${workerId}/logs`
+      `${API_BASE_URL}/bots/${botId}/workers/${workerId}/logs?page=${page}&limit=${limit}`
     );
+
     return handleResponse(response, 'Failed to fetch worker logs');
   },
 };

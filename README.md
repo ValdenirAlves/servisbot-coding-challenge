@@ -75,6 +75,7 @@ You are free to apply a UI/UX that delivers an intuitive application experience 
 
 
 ## Fullstack Bot Dashboard (20/04/2026)
+
 ## Tech Stack
 - React + Vite
 - Node.js + Express
@@ -86,7 +87,7 @@ You are free to apply a UI/UX that delivers an intuitive application experience 
 npm install
 
 ### Start backend
-npm run server
+npm run start
 
 API will run on:
 http://localhost:3001
@@ -101,10 +102,12 @@ http://localhost:5173
 npm test
 
 ## Improvements & Decisions
+
 ## Architecture
 - REST API using Node.js and Express to serve the application data
 - Kept the frontend focused on presentation and interaction
 - Used a service layer in the backend to isolate data access and relationship handling
+- Designed endpoints to allow granular data fetching and avoid overfetching
 
 ## Async handling
 - All data access is asynchronous, simulating real-world API behavior
@@ -119,35 +122,48 @@ npm test
 ### Performance
 - Introduced in-memory indexing (lookup maps) to avoid repeated array scans
 - Achieved constant-time lookups (O(1)) for data access
+- Reduced unnecessary data processing by moving filtering and aggregation logic to the backend
 
 ## UX improvements
 - Added empty state handling for:
   - Bots with no workers
   - Bots with no logs
 - This prevents empty screens and improves user feedback
+- Improved usability for log navigation by limiting page size
 
-### Testing
-- Backend:
-  - Tested core data aggregation logic in `dataService`
-- Frontend:
-  - Tested UI behavior and empty states in `BotDashboard`
-- Focused on critical paths and edge cases
+### Pagination (Post-review improvement)
+- Implemented server-side pagination for log endpoints
+- Default page size set to `limit=10` to improve readability and avoid long scroll
+- Pagination metadata included in API responses:
+  - page
+  - limit
+  - total
+  - totalPages
+  - hasNextPage
+  - hasPreviousPage
 
-### Scalability considerations
-- Current implementation uses in-memory data and indexing for simplicity
-- In a production environment:
-  - Data would be stored in a database with proper indexing
-  - Relationships would be handled via queries or joins
-  - API would support pagination, filtering, and caching
+#### Pagination strategy
 
-- The UI currently uses a native `<select>` for simplicity.
-  - For larger datasets, a searchable dropdown (e.g., react-select) would improve usability
+- This implementation uses offset-based pagination (`page` and `limit`) for simplicity and clarity
+- This approach is suitable for small to medium datasets and provides straightforward navigation (e.g., jumping to specific pages)
 
-- Logs are currently rendered in a simple table.
-  - For large datasets, this could lead to performance issues due to long lists.
-  - In a production scenario, I would introduce pagination or list virtualization to avoid excessive rendering and improve performance.
+- For very large datasets, cursor-based pagination would be more efficient, as it avoids performance issues related to large offsets and provides better scalability
+- Cursor pagination is especially useful for time-based data such as logs, where sequential access is more common
 
-## Notes
-- The dataset was kept unchanged to respect the original contract
-- Data normalization and relationship handling were implemented in the backend
-- The solution prioritizes clarity, simplicity, and separation of concerns
+#### Example endpoints:
+- GET /api/bots/:id/logs?page=1&limit=10
+- GET /api/bots/:id/workers/:workerId/logs?page=1&limit=10
+
+#### Example response:
+```json
+{
+  "data": [],
+  "pagination": {
+    "page": 1,
+    "limit": 10,
+    "total": 100,
+    "totalPages": 10,
+    "hasNextPage": true,
+    "hasPreviousPage": false
+  }
+}
