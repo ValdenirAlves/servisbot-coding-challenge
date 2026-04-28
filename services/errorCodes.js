@@ -1,0 +1,13 @@
+export const ERROR_CODES = {
+  INVALID_QUERY_PARAMS: 'INVALID_QUERY_PARAMS',
+  BOT_NOT_FOUND: 'BOT_NOT_FOUND',
+  WORKER_NOT_FOUND_FOR_BOT: 'WORKER_NOT_FOUND_FOR_BOT',
+  INTERNAL_SERVER_ERROR: 'INTERNAL_SERVER_ERROR',
+};
+
+export const ERROR_MESSAGES = {
+  INVALID_QUERY_PARAMS: 'Invalid query parameters',
+  BOT_NOT_FOUND: 'Bot not found',
+  WORKER_NOT_FOUND_FOR_BOT: 'Worker not found for this bot',
+  INTERNAL_SERVER_ERROR: 'Unexpected server error',
+};

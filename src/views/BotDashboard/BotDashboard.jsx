@@ -138,7 +138,7 @@ const BotDashboard = ({ bot }) => {
                       Previous
                     </button>
 
-                    <span>
+                    <span style={{"margin": "5px"}}>
                       Page {pagination.page} of {pagination.totalPages}
                     </span>
 
